@@ -8,8 +8,8 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 
 public class TempTimer extends JComponent implements ActionListener, Runnable {
-	int timeX = 80, timeY = 95;
-	int tempX = 180, tempY = 95;
+	int timeX = 80, timeY = 95; // Coordinates of the message
+	int tempX = 180, tempY = 95; // Coordinates of the message
 	
 	int theTime;
 	int timeSecond;
@@ -106,7 +106,6 @@ public class TempTimer extends JComponent implements ActionListener, Runnable {
 			theStartButton.setText("Start");
 			theTime = 0;
 			timeMode = 0;
-			theTemp = 60;
 			break;
 		}
 	}
@@ -138,6 +137,7 @@ public class TempTimer extends JComponent implements ActionListener, Runnable {
 					break;
 				}
 			}
-		} catch (InterruptedException ie) {}
+		} catch (InterruptedException ie) {
+		}
 	}
 }

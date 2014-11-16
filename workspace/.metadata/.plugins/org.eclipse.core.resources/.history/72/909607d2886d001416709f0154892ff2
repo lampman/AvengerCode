@@ -8,8 +8,8 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 
 public class TempTimer extends JComponent implements ActionListener, Runnable {
-	int timeX = 80, timeY = 95;
-	int tempX = 180, tempY = 95;
+	int timeX = 125, timeY = 95; // Coordinates of the message
+	int tempX = 225, tempY = 95; // Coordinates of the message
 	
 	int theTime;
 	int timeSecond;
@@ -50,8 +50,6 @@ public class TempTimer extends JComponent implements ActionListener, Runnable {
 		the5XButton.addActionListener(this);
 		the50XButton.addActionListener(this);
 		
-		thePauseButton.setEnabled(false);
-		
 		Thread t = new Thread(this);
 		t.start();
 	}
@@ -62,18 +60,16 @@ public class TempTimer extends JComponent implements ActionListener, Runnable {
 		timeHour = theTime/60/60;
 		
 		timeSecondDisplay = String.valueOf(timeSecond);
-		timeMinuteDisplay = String.valueOf(timeMinute);
-		timeHourDisplay = String.valueOf(timeHour);
+		timeMinuteDisplay = String.valueOf(timeSecond);
+		timeHourDisplay = String.valueOf(timeSecond);
 		
-		if(theTemp > 212){theTemp = 212;}
-		if(theTemp < 60){theTemp = 60;}
 		theTempDisplay = String.valueOf((int)theTemp);
 		
 		g.drawString(timeHourDisplay + ":" + 
 		             String.format("%2s", timeMinuteDisplay).replace(' ', '0') + ":"+
 		             String.format("%2s", timeSecondDisplay).replace(' ', '0')
 		             , timeX, timeY);
-
+		
 		g.drawString(theTempDisplay + "\u00b0" + "F", tempX, tempY);
 	}
 
@@ -81,32 +77,22 @@ public class TempTimer extends JComponent implements ActionListener, Runnable {
 		switch (String.valueOf(e.getActionCommand())) {
 		case "Start":
 			theStartButton.setText("Stop");
-			thePauseButton.setEnabled(true);
 			timeMode = 1;
+			//timePauseButton.setEnabled(true);
 			break;
 		case "5X":
-			theStartButton.setText("Stop");
-			thePauseButton.setEnabled(true);
 			timeMode = 2;
+			//timePauseButton.setEnabled(true);
 			break;
 		case "50X":
-			theStartButton.setText("Stop");
-			thePauseButton.setEnabled(true);
 			timeMode = 3;
+			//timePauseButton.setEnabled(true);
 			break;
 		case "Pause":
-			thePauseButton.setText("Resume");
 			timeMode = 0;
 			break;
 		case "Resume":
-			thePauseButton.setText("Pause");
 			timeMode = 1;
-			break;
-		case "Stop":
-			theStartButton.setText("Start");
-			theTime = 0;
-			timeMode = 0;
-			theTemp = 60;
 			break;
 		}
 	}
@@ -115,29 +101,28 @@ public class TempTimer extends JComponent implements ActionListener, Runnable {
 		try {
 			while (true) {
 				switch(timeMode){
-				case 0:
-					repaint();
-					break;
 				case 1:
 					theTime = theTime + 1;
-					theTemp = theTime*0.13 + 60;
+					theTemp = theTime*0.0026 + theTemp;
 					repaint();
 					Thread.sleep(1000);
 					break;
 				case 2:
 					theTime = theTime + 5;
-					theTemp = theTime*0.13 + 60;
+					theTemp = theTime*0.0026 + theTemp;
 					repaint();
 					Thread.sleep(1000);
 					break;
 				case 3:
 					theTime = theTime + 50;
-					theTemp = theTime*0.13 + 60;
+					theTemp = theTime*0.0026 + theTemp;
 					repaint();
 					Thread.sleep(1000);
 					break;
 				}
+				
 			}
-		} catch (InterruptedException ie) {}
+		} catch (InterruptedException ie) {
+		}
 	}
 }

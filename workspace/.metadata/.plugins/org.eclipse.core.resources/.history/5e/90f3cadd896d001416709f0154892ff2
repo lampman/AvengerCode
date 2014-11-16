@@ -8,8 +8,8 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 
 public class TempTimer extends JComponent implements ActionListener, Runnable {
-	int timeX = 80, timeY = 95;
-	int tempX = 180, tempY = 95;
+	int timeX = 80, timeY = 95; // Coordinates of the message
+	int tempX = 180, tempY = 95; // Coordinates of the message
 	
 	int theTime;
 	int timeSecond;
@@ -62,11 +62,9 @@ public class TempTimer extends JComponent implements ActionListener, Runnable {
 		timeHour = theTime/60/60;
 		
 		timeSecondDisplay = String.valueOf(timeSecond);
-		timeMinuteDisplay = String.valueOf(timeMinute);
-		timeHourDisplay = String.valueOf(timeHour);
+		timeMinuteDisplay = String.valueOf(timeSecond);
+		timeHourDisplay = String.valueOf(timeSecond);
 		
-		if(theTemp > 212){theTemp = 212;}
-		if(theTemp < 60){theTemp = 60;}
 		theTempDisplay = String.valueOf((int)theTemp);
 		
 		g.drawString(timeHourDisplay + ":" + 
@@ -103,10 +101,9 @@ public class TempTimer extends JComponent implements ActionListener, Runnable {
 			timeMode = 1;
 			break;
 		case "Stop":
-			theStartButton.setText("Start");
+			theStartButton.setText("Stop");
 			theTime = 0;
 			timeMode = 0;
-			theTemp = 60;
 			break;
 		}
 	}
@@ -115,9 +112,6 @@ public class TempTimer extends JComponent implements ActionListener, Runnable {
 		try {
 			while (true) {
 				switch(timeMode){
-				case 0:
-					repaint();
-					break;
 				case 1:
 					theTime = theTime + 1;
 					theTemp = theTime*0.13 + 60;
@@ -138,6 +132,7 @@ public class TempTimer extends JComponent implements ActionListener, Runnable {
 					break;
 				}
 			}
-		} catch (InterruptedException ie) {}
+		} catch (InterruptedException ie) {
+		}
 	}
 }
