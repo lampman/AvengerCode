@@ -7,11 +7,17 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
-public class TempTimer extends JComponent implements ActionListener, Runnable {
-	int timeX = 80, timeY = 95;
-	int tempX = 180, tempY = 95;
+import java.awt.*;
+import java.awt.event.*; 
+import javax.swing.*; 
+import javax.swing.event.*;
+
+public class TempTimer extends JComponent implements ActionListener, ChangeListener, Runnable {
+	int timeX = 130, timeY = 110;
+	int tempX = 230, tempY = 110;
 	
 	int theTime;
+	double theTimeDouble;
 	int timeSecond;
 	int timeMinute;
 	int timeHour;
@@ -28,6 +34,10 @@ public class TempTimer extends JComponent implements ActionListener, Runnable {
 	JButton thePauseButton;
 	JButton the5XButton;
 	JButton the50XButton;
+	
+	JSlider slider;
+	double sliderValue;
+	JLabel statusLabel;
 
 	public TempTimer() {
 		theTime = 0;
@@ -51,6 +61,15 @@ public class TempTimer extends JComponent implements ActionListener, Runnable {
 		the50XButton.addActionListener(this);
 		
 		thePauseButton.setEnabled(false);
+		
+	    slider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
+		slider.setMajorTickSpacing(48);
+    	slider.setMinorTickSpacing(16);
+    	slider.setPaintTicks(true); 
+    	add(slider);
+    	slider.addChangeListener(this);
+    	statusLabel = new JLabel("Heat = 0");
+    	add(statusLabel, BorderLayout.SOUTH);
 		
 		Thread t = new Thread(this);
 		t.start();
@@ -77,6 +96,11 @@ public class TempTimer extends JComponent implements ActionListener, Runnable {
 		g.drawString(theTempDisplay + "\u00b0" + "F", tempX, tempY);
 	}
 
+	public void stateChanged(ChangeEvent e) {
+   		statusLabel.setText("Heat = " + slider.getValue());
+   		sliderValue = (double) slider.getValue();
+	} 
+	
 	public void actionPerformed(ActionEvent e) {
 		switch (String.valueOf(e.getActionCommand())) {
 		case "Start":
@@ -114,30 +138,30 @@ public class TempTimer extends JComponent implements ActionListener, Runnable {
 	public void run() {
 		try {
 			while (true) {
-				switch(timeMode){
-				case 0:
-					repaint();
-					break;
-				case 1:
-					theTime = theTime + 1;
-					theTemp = theTime*0.13 + 60;
+				if(timeMode != 0){
+					switch(timeMode){
+					case 0:
+						repaint();
+						break;
+					case 1:
+						theTime = theTime + 1;
+						break;
+					case 2:
+						theTime = theTime + 5;
+						break;
+					case 3:
+						theTime = theTime + 50;
+						break;
+					}
+					theTimeDouble = (double) theTime;
+					if(theTemp < 140 || theTemp > 165){theTemp = ((sliderValue-50.0)/50.0)*theTimeDouble*0.006 + theTemp;}
+					if(theTemp >= 140 && theTemp <= 165){theTemp = ((sliderValue-50.0)/50.0)*theTimeDouble*0.01 + theTemp;}
 					repaint();
 					Thread.sleep(1000);
-					break;
-				case 2:
-					theTime = theTime + 5;
-					theTemp = theTime*0.13 + 60;
-					repaint();
-					Thread.sleep(1000);
-					break;
-				case 3:
-					theTime = theTime + 50;
-					theTemp = theTime*0.13 + 60;
-					repaint();
-					Thread.sleep(1000);
-					break;
 				}
+				repaint();
 			}
 		} catch (InterruptedException ie) {}
 	}
 }
+
