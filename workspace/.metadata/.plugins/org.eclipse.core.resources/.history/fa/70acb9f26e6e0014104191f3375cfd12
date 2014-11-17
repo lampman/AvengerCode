@@ -1,21 +1,25 @@
 package beerTycoonPack;
 
+import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JComponent;
 import java.awt.*;
 import javax.swing.*; 
 import javax.swing.event.*;
 
 public class TempTimer extends JComponent implements ActionListener, ChangeListener, Runnable {
-	private static final long serialVersionUID = 1L;
 	int timeX = 130, timeY = 110;
 	int tempX = 230, tempY = 110;
 	
 	int theTime;
+	double theTimeDouble;
 	int timeSecond;
 	int timeMinute;
 	int timeHour;
-	double timeMode;
+	int timeMode;
 	String theTimeDisplay;
 	String timeSecondDisplay;
 	String timeMinuteDisplay;
@@ -35,7 +39,7 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 
 	public TempTimer() {
 		theTime = 0;
-		timeMode = 0.0;
+		timeMode = 0;
 		theTemp = 60;
 		
 		theStartButton = new JButton("Start");
@@ -98,31 +102,30 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 		case "Start":
 			theStartButton.setText("Stop");
 			thePauseButton.setEnabled(true);
-			timeMode = 1.0;
+			timeMode = 1;
 			break;
 		case "5X":
 			theStartButton.setText("Stop");
 			thePauseButton.setEnabled(true);
-			timeMode = 5.0;
+			timeMode = 2;
 			break;
 		case "50X":
 			theStartButton.setText("Stop");
 			thePauseButton.setEnabled(true);
-			timeMode = 50.0;
+			timeMode = 3;
 			break;
 		case "Pause":
 			thePauseButton.setText("Resume");
-			timeMode = 0.0;
+			timeMode = 0;
 			break;
 		case "Resume":
 			thePauseButton.setText("Pause");
-			timeMode = 1.0;
+			timeMode = 1;
 			break;
 		case "Stop":
 			theStartButton.setText("Start");
-			thePauseButton.setEnabled(false);
 			theTime = 0;
-			timeMode = 0.0;
+			timeMode = 0;
 			theTemp = 60;
 			break;
 		}
@@ -131,14 +134,39 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 	public void run() {
 		try {
 			while (true) {
-				if(timeMode != 0.0){
-						theTime = theTime + (int) timeMode;
-						if(theTemp < (sliderValue*1.60 + 60)){theTemp = theTemp + (timeMode * 0.1);}
-						if(theTemp > (sliderValue*1.60 + 60)){theTemp = theTemp - (timeMode * 0.05);}
-			    }
-			    if(theTemp > 212){theTemp = 212;}
-				if(theTemp < 60){theTemp = 60;}
-				Thread.sleep(1000);
+				if(timeMode != 0){
+					switch(timeMode){
+					case 0:
+						break;
+					case 1:
+						theTime = theTime + 1;
+						if(theTemp < (sliderValue*1.60 + 60)){
+							theTemp = theTemp + 0.15;
+						}else if(theTemp > (sliderValue*1.60 + 60)){
+							theTemp = theTemp - 0.1;
+						}
+						break;
+					case 2:
+						theTime = theTime + 5;
+						if(theTemp < (sliderValue*1.60 + 60)){
+							theTemp = theTemp + (5 * 0.15);
+						}else if(theTemp > (sliderValue*1.60 + 60)){
+							theTemp = theTemp - (5 * 0.1);
+						}
+						break;
+					case 3:
+						theTime = theTime + 50;
+						if(theTemp < (sliderValue*1.60 + 60)){
+							theTemp = theTemp + (50 * 0.15);
+						}else if(theTemp > (sliderValue*1.60 + 60)){
+							theTemp = theTemp - (50 * 0.1);
+						}
+						break;
+					}
+					if(theTemp > 212){theTemp = 212;}
+					if(theTemp < 60){theTemp = 60;}
+					Thread.sleep(1000);
+				}
 				repaint();
 			}
 		} catch (InterruptedException ie) {}

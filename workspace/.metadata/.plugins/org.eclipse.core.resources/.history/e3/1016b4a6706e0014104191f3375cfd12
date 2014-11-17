@@ -1,13 +1,16 @@
 package beerTycoonPack;
 
+import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JComponent;
 import java.awt.*;
 import javax.swing.*; 
 import javax.swing.event.*;
 
 public class TempTimer extends JComponent implements ActionListener, ChangeListener, Runnable {
-	private static final long serialVersionUID = 1L;
 	int timeX = 130, timeY = 110;
 	int tempX = 230, tempY = 110;
 	
@@ -120,7 +123,6 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 			break;
 		case "Stop":
 			theStartButton.setText("Start");
-			thePauseButton.setEnabled(false);
 			theTime = 0;
 			timeMode = 0.0;
 			theTemp = 60;
@@ -133,8 +135,8 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 			while (true) {
 				if(timeMode != 0.0){
 						theTime = theTime + (int) timeMode;
-						if(theTemp < (sliderValue*1.60 + 60)){theTemp = theTemp + (timeMode * 0.1);}
-						if(theTemp > (sliderValue*1.60 + 60)){theTemp = theTemp - (timeMode * 0.05);}
+						if(theTemp < (sliderValue*1.60 + 60)){theTemp = theTemp + (timeMode * 0.15);}
+						if(theTemp > (sliderValue*1.60 + 60)){theTemp = theTemp - (timeMode * 0.1);}
 			    }
 			    if(theTemp > 212){theTemp = 212;}
 				if(theTemp < 60){theTemp = 60;}

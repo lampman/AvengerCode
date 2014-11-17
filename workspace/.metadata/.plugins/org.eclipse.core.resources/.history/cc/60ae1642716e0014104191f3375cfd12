@@ -1,12 +1,19 @@
 package beerTycoonPack;
 
+import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JComponent;
 import java.awt.*;
 import javax.swing.*; 
 import javax.swing.event.*;
 
 public class TempTimer extends JComponent implements ActionListener, ChangeListener, Runnable {
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 	int timeX = 130, timeY = 110;
 	int tempX = 230, tempY = 110;
