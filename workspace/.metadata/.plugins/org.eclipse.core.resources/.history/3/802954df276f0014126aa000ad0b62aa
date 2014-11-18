@@ -39,6 +39,8 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 	JLabel statusLabel;
 
      int imageSwitch;
+     Image lauter0 = Toolkit.getDefaultToolkit().getImage(
+		      "lauter0.jpg");
 	 Image lauter1 = Toolkit.getDefaultToolkit().getImage(
 		      "lauter1.jpg");
 	 Image lauter2 = Toolkit.getDefaultToolkit().getImage(
@@ -110,8 +112,8 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 		theTempDisplay = String.valueOf((int)tempArray[0]);
 		
 		
-
-		if(sliderValue<20){imageSwitch = 1;}
+		if(sliderValue >= 0 && sliderValue<10){imageSwitch = 0;}
+		if(sliderValue >= 10 && sliderValue<20){imageSwitch = 1;}
 		if(sliderValue >= 20 && sliderValue<30){imageSwitch = 2;}
 		if(sliderValue >= 30 && sliderValue<40){imageSwitch = 3;}
 		if(sliderValue >= 40 && sliderValue<50){imageSwitch = 4;}
@@ -122,6 +124,7 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 		if(sliderValue >= 90 && sliderValue<100){imageSwitch = 9;}
 		if(sliderValue == 100){imageSwitch = 10;}
 		switch(imageSwitch){
+		case 0:g.drawImage(lauter0, 120, 100, this);break;
 		case 1:g.drawImage(lauter1, 120, 100, this);break;
 		case 2:g.drawImage(lauter2, 120, 100, this);break;
 		case 3:g.drawImage(lauter3, 120, 100, this);break;
@@ -143,7 +146,6 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 	}
 	public void stateChanged(ChangeEvent e) {
    		sliderValue = (double) slider.getValue();
-   		repaint();
 	} 
 	public void actionPerformed(ActionEvent e) {
 		switch (String.valueOf(e.getActionCommand())) {

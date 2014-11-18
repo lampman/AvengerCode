@@ -122,6 +122,7 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 		if(sliderValue >= 90 && sliderValue<100){imageSwitch = 9;}
 		if(sliderValue == 100){imageSwitch = 10;}
 		switch(imageSwitch){
+		case 0:g.drawImage(lauter0, 120, 100, this);break;
 		case 1:g.drawImage(lauter1, 120, 100, this);break;
 		case 2:g.drawImage(lauter2, 120, 100, this);break;
 		case 3:g.drawImage(lauter3, 120, 100, this);break;
