@@ -15,7 +15,6 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 	int timeSecond;
 	int timeMinute;
 	int timeHour;
-	int timeModeInt;
 	double timeMode;
 	String theTimeDisplay;
 	String timeSecondDisplay;
@@ -31,7 +30,6 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 	JButton thePauseButton;
 	JButton the5XButton;
 	JButton the50XButton;
-	JButton theStirButton;
 	
 	JSlider slider;
 	double sliderValue;
@@ -46,23 +44,19 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 		thePauseButton = new JButton("Pause");
 		the5XButton = new JButton("5X");
 		the50XButton = new JButton("50X");
-		theStirButton = new JButton("Stir");
 		
 		setLayout(new FlowLayout());
 		add(theStartButton);
 		add(thePauseButton);
 		add(the5XButton);
 		add(the50XButton);
-		add(theStirButton);
 		
 		theStartButton.addActionListener(this);
 		thePauseButton.addActionListener(this);
 		the5XButton.addActionListener(this);
 		the50XButton.addActionListener(this);
-		theStirButton.addActionListener(this);
 		
 		thePauseButton.setEnabled(false);
-		theStirButton.setEnabled(false);
 		
 	    slider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
 		slider.setMajorTickSpacing(48);
@@ -106,41 +100,32 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 		case "Start":
 			theStartButton.setText("Stop");
 			thePauseButton.setEnabled(true);
-			theStirButton.setEnabled(true);
 			timeMode = 1.0;
 			break;
 		case "5X":
 			theStartButton.setText("Stop");
 			thePauseButton.setEnabled(true);
-			theStirButton.setEnabled(false);
 			timeMode = 5.0;
 			break;
 		case "50X":
 			theStartButton.setText("Stop");
 			thePauseButton.setEnabled(true);
-			theStirButton.setEnabled(false);
 			timeMode = 50.0;
 			break;
 		case "Pause":
 			thePauseButton.setText("Resume");
-			theStirButton.setEnabled(false);
 			timeMode = 0.0;
 			break;
 		case "Resume":
 			thePauseButton.setText("Pause");
-			theStirButton.setEnabled(true);
 			timeMode = 1.0;
 			break;
 		case "Stop":
 			theStartButton.setText("Start");
 			thePauseButton.setEnabled(false);
-			theStirButton.setEnabled(false);
 			theTime = 0;
 			timeMode = 0.0;
 			theTemp = 60;
-			break;
-		case "Stir":
-			theTemp = theTemp - 0.5;
 			break;
 		}
 	}
@@ -148,7 +133,6 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 	public void run() {
 		try {
 			while (true) {
-				timeModeInt = (int) timeMode;
 				if(timeMode != 0.0){
 						theTime = theTime + (int) timeMode;
 						if(theTemp < (sliderValue*1.60 + 60)){theTemp = theTemp + (timeMode * 0.1);}
@@ -157,12 +141,10 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 			    if(theTemp > 212){theTemp = 212;}
 				if(theTemp < 60){theTemp = 60;}
 				
-				for ( int i = 1; i <= timeModeInt; i++){
-					for ( int j = 0; j < 9; j++ ) {
-						tempArray[j] = tempArray[j + 1];
-					}
-					tempArray[9] = theTemp;
+				for ( int j = 0; j < 9; j++ ) {
+					tempArray[j] = tempArray[j + 1];
 				}
+				tempArray[9] = theTemp;
 				
 				Thread.sleep(1000);
 				repaint();

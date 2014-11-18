@@ -140,7 +140,7 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 			theTemp = 60;
 			break;
 		case "Stir":
-			theTemp = theTemp - 0.5;
+			theTemp = theTemp - 5;
 			break;
 		}
 	}

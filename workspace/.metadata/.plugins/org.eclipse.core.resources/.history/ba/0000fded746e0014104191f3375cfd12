@@ -1,0 +1,19 @@
+package beerTycoonPack;
+
+public class arrayPlay {
+
+	public static void main(String[] args) {
+		int myArray[] = {60,60,60,60,60};
+		int i = 0;
+		int counter = 60;
+		while(i < 20){
+			i++;
+			counter++;
+			System.out.println(myArray[0]);
+			for ( int j = 4; j < 0; j-- ) {
+				myArray[j-1] = myArray[j];
+			}
+			myArray[4] = counter;
+		}
+	}
+}
