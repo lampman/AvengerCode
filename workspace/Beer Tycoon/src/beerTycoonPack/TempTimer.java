@@ -3,6 +3,7 @@ package beerTycoonPack;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.*;
+
 import javax.swing.*; 
 import javax.swing.event.*;
 
@@ -37,6 +38,8 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 	double sliderValue;
 	JLabel statusLabel;
 
+	private Image image;
+	
 	public TempTimer() {
 		theTime = 0;
 		timeMode = 0.0;
@@ -70,9 +73,12 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
     	slider.setPaintTicks(true); 
     	add(slider);
     	slider.addChangeListener(this);
-    	statusLabel = new JLabel("Heat = 0");
-    	add(statusLabel, BorderLayout.SOUTH);
+    	//statusLabel = new JLabel("Heat = 0");
+    	//add(statusLabel, BorderLayout.SOUTH);
 		
+    	image = Toolkit.getDefaultToolkit().getImage(
+    		      "lauter.jpg");
+    	
 		Thread t = new Thread(this);
 		t.start();
 	}
@@ -88,6 +94,7 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 		
 		theTempDisplay = String.valueOf((int)tempArray[0]);
 		
+		g.drawImage(image, 120, 100, this);
 		g.drawString(timeHourDisplay + ":" + 
 		             String.format("%2s", timeMinuteDisplay).replace(' ', '0') + ":"+
 		             String.format("%2s", timeSecondDisplay).replace(' ', '0')
@@ -95,12 +102,10 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 
 		g.drawString(theTempDisplay + "\u00b0" + "F", tempX, tempY);
 	}
-
 	public void stateChanged(ChangeEvent e) {
-   		statusLabel.setText("Heat = " + slider.getValue());
+   		//statusLabel.setText("Heat = " + slider.getValue());
    		sliderValue = (double) slider.getValue();
 	} 
-	
 	public void actionPerformed(ActionEvent e) {
 		switch (String.valueOf(e.getActionCommand())) {
 		case "Start":
@@ -140,12 +145,12 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 			theTemp = 60;
 			break;
 		case "Stir":
-			theTemp = theTemp - 0.5;
+			theStirButton.setEnabled(false);
 			break;
 		}
 	}
-
 	public void run() {
+		int stirCounter = 0;
 		try {
 			while (true) {
 				timeModeInt = (int) timeMode;
@@ -153,17 +158,22 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 						theTime = theTime + (int) timeMode;
 						if(theTemp < (sliderValue*1.60 + 60)){theTemp = theTemp + (timeMode * 0.1);}
 						if(theTemp > (sliderValue*1.60 + 60)){theTemp = theTemp - (timeMode * 0.05);}
-			    }
+						if(!theStirButton.isEnabled() && timeMode == 1.0){
+							stirCounter = stirCounter + 1;
+							theTemp = theTemp - 0.5;}
+						if(!theStirButton.isEnabled() && timeMode == 1.0 && stirCounter > 4){
+						   stirCounter = 0;
+						   theStirButton.setEnabled(true);
+						   }
+				}
 			    if(theTemp > 212){theTemp = 212;}
 				if(theTemp < 60){theTemp = 60;}
-				
 				for ( int i = 1; i <= timeModeInt; i++){
 					for ( int j = 0; j < 9; j++ ) {
 						tempArray[j] = tempArray[j + 1];
 					}
 					tempArray[9] = theTemp;
 				}
-				
 				Thread.sleep(1000);
 				repaint();
 			}
