@@ -187,7 +187,6 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 			theStirButton.setEnabled(false);
 			break;
 		}
-		repaint();
 	}
 	public void run() {
 		int stirCounter = 0;
