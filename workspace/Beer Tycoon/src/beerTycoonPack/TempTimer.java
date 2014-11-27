@@ -38,27 +38,38 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 	double sliderValue;
 	JLabel statusLabel;
 
+	int imageInitial = 0;
+	
+	
      int imageSwitch;
-	 Image lauter1 = Toolkit.getDefaultToolkit().getImage(
-		      "lauter1.jpg");
-	 Image lauter2 = Toolkit.getDefaultToolkit().getImage(
-		      "lauter2.jpg");
-	 Image lauter3 = Toolkit.getDefaultToolkit().getImage(
-		      "lauter3.jpg");
-	 Image lauter4 = Toolkit.getDefaultToolkit().getImage(
-		      "lauter4.jpg");
-	 Image lauter5 = Toolkit.getDefaultToolkit().getImage(
-		      "lauter5.jpg");
-	 Image lauter6 = Toolkit.getDefaultToolkit().getImage(
-		      "lauter6.jpg");
-	 Image lauter7 = Toolkit.getDefaultToolkit().getImage(
-		      "lauter7.jpg");
-	 Image lauter8 = Toolkit.getDefaultToolkit().getImage(
-		      "lauter8.jpg");
-	 Image lauter9 = Toolkit.getDefaultToolkit().getImage(
-		      "lauter9.jpg");
-	 Image lauter10 = Toolkit.getDefaultToolkit().getImage(
-		      "lauter10.jpg");
+	 Image heat0 = Toolkit.getDefaultToolkit().getImage(
+		      "heat0.jpg");
+	 Image heat1 = Toolkit.getDefaultToolkit().getImage(
+		      "heat10.jpg");
+	 Image heat2 = Toolkit.getDefaultToolkit().getImage(
+		      "heat20.jpg");
+	 Image heat3 = Toolkit.getDefaultToolkit().getImage(
+		      "heat30.jpg");
+	 Image heat4 = Toolkit.getDefaultToolkit().getImage(
+		      "heat40.jpg");
+	 Image heat5 = Toolkit.getDefaultToolkit().getImage(
+		      "heat50.jpg");
+	 Image heat6 = Toolkit.getDefaultToolkit().getImage(
+		      "heat60.jpg");
+	 Image heat7 = Toolkit.getDefaultToolkit().getImage(
+		      "heat70.jpg");
+	 Image heat8 = Toolkit.getDefaultToolkit().getImage(
+		      "heat80.jpg");
+	 Image heat9 = Toolkit.getDefaultToolkit().getImage(
+		      "heat90.jpg");
+	 Image heat10 = Toolkit.getDefaultToolkit().getImage(
+		      "heat100.jpg");
+	 Image kitchenImage = Toolkit.getDefaultToolkit().getImage(
+			  "Kitchentmp.jpg");
+	 Image tempIncrement = Toolkit.getDefaultToolkit().getImage(
+			  "tempIncrement.jpg");
+	 Image thermoIncrement = Toolkit.getDefaultToolkit().getImage(
+			  "thermoIncrement.jpg");
 	
 	public TempTimer() {
 		theTime = 0;
@@ -108,30 +119,56 @@ public class TempTimer extends JComponent implements ActionListener, ChangeListe
 		timeHourDisplay = String.valueOf(timeHour);
 		
 		theTempDisplay = String.valueOf((int)tempArray[0]);
-		
+		g.drawImage(kitchenImage,  0, 0, this);
+		if(imageInitial == 0){
+		g.drawImage(heat0,  418, 358, this);
+	    g.drawImage(heat1,  418, 358, this);
+	    g.drawImage(heat2,  418, 358, this);
+	    g.drawImage(heat3,  418, 358, this);
+	    g.drawImage(heat4,  418, 358, this);
+	    g.drawImage(heat5,  418, 358, this);
+	    g.drawImage(heat6,  418, 358, this);
+	    g.drawImage(heat7,  418, 358, this);
+	    g.drawImage(heat8,  418, 358, this);
+	    g.drawImage(heat9,  418, 358, this);
+	    g.drawImage(heat10, 418, 358, this);
+	    g.drawImage(heat0,  418, 358, this);
+	    imageInitial = 1;
+		}
+		for ( int i = 60; i <= 212; i++){
+			if(i > (int) tempArray[0]){
+				g.drawImage(thermoIncrement,  586, (585 - (2* i)), this);
+			}else{
+				g.drawImage(tempIncrement,  586, (589 - (2* i)), this);
+				g.drawImage(tempIncrement,  586, (588 - (2* i)), this);
+			}
+		}
+
 		
 
-		if(sliderValue<20){imageSwitch = 1;}
-		if(sliderValue >= 20 && sliderValue<30){imageSwitch = 2;}
-		if(sliderValue >= 30 && sliderValue<40){imageSwitch = 3;}
-		if(sliderValue >= 40 && sliderValue<50){imageSwitch = 4;}
-		if(sliderValue >= 50 && sliderValue<60){imageSwitch = 5;}
-		if(sliderValue >= 60 && sliderValue<70){imageSwitch = 6;}
-		if(sliderValue >= 70 && sliderValue<80){imageSwitch = 7;}
-		if(sliderValue >= 80 && sliderValue<90){imageSwitch = 8;}
-		if(sliderValue >= 90 && sliderValue<100){imageSwitch = 9;}
-		if(sliderValue == 100){imageSwitch = 10;}
+		if(sliderValue==0){imageSwitch = 0;}
+		if(sliderValue >   0 && sliderValue<10){imageSwitch = 1;}
+		if(sliderValue >= 10 && sliderValue<20){imageSwitch = 2;}
+		if(sliderValue >= 20 && sliderValue<30){imageSwitch = 3;}
+		if(sliderValue >= 30 && sliderValue<40){imageSwitch = 4;}
+		if(sliderValue >= 40 && sliderValue<50){imageSwitch = 5;}
+		if(sliderValue >= 50 && sliderValue<60){imageSwitch = 6;}
+		if(sliderValue >= 60 && sliderValue<70){imageSwitch = 7;}
+		if(sliderValue >= 70 && sliderValue<80){imageSwitch = 8;}
+		if(sliderValue >= 80 && sliderValue<90){imageSwitch = 9;}
+		if(sliderValue >= 90 ){imageSwitch = 10;}
 		switch(imageSwitch){
-		case 1:g.drawImage(lauter1, 120, 100, this);break;
-		case 2:g.drawImage(lauter2, 120, 100, this);break;
-		case 3:g.drawImage(lauter3, 120, 100, this);break;
-		case 4:g.drawImage(lauter4, 120, 100, this);break;
-		case 5:g.drawImage(lauter5, 120, 100, this);break;
-		case 6:g.drawImage(lauter6, 120, 100, this);break;
-		case 7:g.drawImage(lauter7, 120, 100, this);break;
-		case 8:g.drawImage(lauter8, 120, 100, this);break;
-		case 9:g.drawImage(lauter9, 120, 100, this);break;
-		case 10:g.drawImage(lauter10, 120, 100, this);break;
+		case 0: g.drawImage(heat0,  418, 358, this);break;
+		case 1: g.drawImage(heat1,  418, 358, this);break;
+		case 2: g.drawImage(heat2,  418, 358, this);break;
+		case 3: g.drawImage(heat3,  418, 358, this);break;
+		case 4: g.drawImage(heat4,  418, 358, this);break;
+		case 5: g.drawImage(heat5,  418, 358, this);break;
+		case 6: g.drawImage(heat6,  418, 358, this);break;
+		case 7: g.drawImage(heat7,  418, 358, this);break;
+		case 8: g.drawImage(heat8,  418, 358, this);break;
+		case 9: g.drawImage(heat9,  418, 358, this);break;
+		case 10:g.drawImage(heat10, 418, 358, this);break;
 		}
 			
 		g.drawString(timeHourDisplay + ":" + 
